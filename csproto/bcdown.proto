@@ -1,0 +1,208 @@
+import "common.proto";
+
+package MsgBDown;
+
+message battlecheck {
+  repeated pve_check_msg    _pve_msg    = 1;
+  repeated pvp_check_msg    _pvp_msg    = 2;
+  repeated tbc_check_msg    _tbc_msg    = 3;
+  repeated excav_check_msg  _excav_msg  = 4;
+  repeated guild_pve_check_msg _guild_msg = 5;
+  repeated rtpvp_check_msg  _rtpvp_msg  = 6;
+  repeated toppvp_check_msg _toppvp_msg  = 7;
+  repeated ancients_check_msg  _ancients_msg = 8;
+  repeated gvg_check_msg    _gvg_check_msg =9;
+}
+
+message pve_check_msg {
+  required uint32 _checkid    = 1;
+  required uint32 _userid     = 2;
+  required uint32 _stageid    = 3;
+  required Msg.battle_result _result     = 4 [default = victory];
+  required uint32 _stars      = 5;
+  repeated Msg.hero   _heroes     = 6;
+  repeated uint32 _oprations  = 7;
+  required uint32 _rseed      = 8;
+  optional uint32 _cli_battle_time = 9;
+  repeated unit_battle_data  _unit_battle_data = 10;  
+}
+
+message unit_battle_data {
+  optional uint32        _unit_max_damage = 1; //
+  repeated uint32        _unit_kill_list = 2;   //
+  optional uint32        _unit_hid = 3; 
+}
+
+message pvp_check_msg{
+  required uint32 _checkid      = 1;
+  required uint32 _userid       = 2;
+  optional string _username     = 3;
+  optional uint32 _level        = 4;
+  optional uint32 _avatar       = 5;
+  optional uint32 _vip          = 6;
+  required uint32 _oppo_userid  = 7;
+  optional string _oppo_name    = 8;
+  optional uint32 _oppo_level   = 9;
+  optional uint32 _oppo_avatar  = 10;
+  optional uint32 _oppo_vip     = 11;
+  optional uint32 _oppo_robot   = 12;
+  optional Msg.battle_result _result       = 13 [default = victory];
+  repeated Msg.hero   _self_heroes  = 14;
+  repeated Msg.hero   _oppo_heroes  = 15;
+  required uint32 _rseed        = 16;
+  optional uint32 _self_robot   = 17;
+}
+
+message user_summary {
+    required uint32 _avatar     = 1; // 玩家头像
+    required string _name       = 2; // 玩家名
+    required uint32 _vip        = 3; // 玩家vip
+    required uint32 _level      = 4; // 玩家等级
+    optional string _guild_name = 5; //公会名字
+}
+
+
+                        
+message gvg_check_msg{
+  required uint32 _checkid              = 1;
+  required uint32 _userid               = 2;
+  required user_summary _user_summary   = 3;
+  required user_summary _oppo_summary   = 4;
+  repeated Msg.hero   _self_heroes          = 5;
+  repeated Msg.hero   _oppo_heroes          = 6;
+  required uint32 _rseed                = 7;
+  optional uint32 _cli_battle_time      = 8;
+  repeated Msg.hero_dyna   _self_gvg_heroes          = 9;
+  repeated Msg.hero_dyna   _oppo_gvg_heroes          = 10;
+  required uint32 _oppo_userid               = 11;
+}                        
+
+
+message tbc_check_msg{
+  required uint32 _checkid              = 1;
+  required uint32 _userid               = 2;
+  optional string _username             = 3;
+  required uint32 _oppo_userid          = 4;
+  optional string _oppo_name            = 5;
+  optional uint32 _oppo_robot           = 6;
+  optional Msg.battle_result _result               = 7 [default = victory];
+  repeated Msg.hero   _self_heroes          = 8;
+  repeated Msg.hero   _oppo_heroes          = 9;
+  required uint32 _rseed                = 10;
+  optional uint32 _self_robot           = 11;
+  repeated Msg.hero_dyna _self_dyna_start   = 12;
+  repeated Msg.hero_dyna _self_dyna_end     = 13;
+  repeated Msg.hero_dyna _oppo_dyna_start   = 14;
+  repeated Msg.hero_dyna _oppo_dyna_end     = 15;
+  repeated uint32 _oprations            = 16;
+  optional uint32 _cli_battle_time      = 17;
+}
+
+message excav_check_msg{
+  enum oppo_type {
+    monster = 1;
+    player  = 2;
+  }
+  required uint32 _checkid              = 1;
+  required uint32 _userid               = 2;
+  optional string _username             = 3;
+  optional uint32 _level                = 4;
+  optional uint32 _avatar               = 5;
+  optional uint32 _robot                = 6;
+  optional uint32 _vip                  = 7;
+  required uint32 _oppo_userid          = 8;    // 如果oppo_type是monster，这个字段是enemy id
+  optional string _oppo_username        = 9;
+  optional uint32 _oppo_level           = 10;
+  optional uint32 _oppo_avatar          = 11;
+  optional uint32 _oppo_vip             = 12;
+  optional uint32 _oppo_roboto          = 13;
+  required oppo_type _oppo_type         = 14;  
+  optional Msg.battle_result _result               = 15 [default = victory];
+  repeated Msg.hero   _self_heroes          = 16;
+  repeated Msg.hero   _oppo_heroes          = 17;    // 如果oppo_type是monster，这个字段无效
+  required uint32 _rseed                = 18;
+  repeated Msg.hero_dyna _self_dyna_start   = 19;
+  repeated Msg.hero_dyna _self_dyna_end     = 20;
+  repeated Msg.hero_dyna _oppo_dyna_start   = 21;
+  repeated Msg.hero_dyna _oppo_dyna_end     = 22;
+  optional uint32    _param1            = 23;
+  repeated uint32 _oprations            = 24;
+  optional uint32 _cli_battle_time      = 25;
+}
+
+message guild_pve_check_msg{
+  required uint32 _checkid              = 1;
+  required uint32 _userid               = 2;
+  required string _username             = 3;
+  required Msg.battle_result _result               = 4 [default = victory];
+  repeated Msg.hero   _self_heroes          = 5;
+  required uint32 _stageid              = 6;
+  required uint32 _start_wave           = 7;
+  required uint32 _end_wave             = 8;
+  required uint32 _rseed                = 9;
+  repeated uint32 _hp_start             = 10;
+  repeated uint32 _hp_end               = 11;
+  repeated uint32 _oprations            = 12;
+  optional uint32 _cli_battle_time      = 13;
+  required uint32 _dps                  = 14;
+}
+
+message rtpvp_check_msg {
+  required uint32 _checkid    = 1;
+  required uint32 _userid     = 2;
+  required uint32 _oppo_userid  = 3;
+  repeated Msg.hero   _self_heroes  = 4;
+  repeated Msg.hero   _oppo_heroes  = 5;
+  repeated sync_operation _self_operation = 6;
+  repeated sync_operation _oppo_operation = 7;
+  required Msg.battle_result _result       = 8 [default = victory];
+  required uint32 _rseed        = 9;
+}
+
+message toppvp_check_msg{
+  required uint32 _checkid      = 1;
+  required uint32 _userid       = 2;
+  optional string _username     = 3;
+  optional uint32 _level        = 4;
+  optional uint32 _avatar       = 5;
+  optional uint32 _vip          = 6;
+  required uint32 _oppo_userid  = 7;
+  optional string _oppo_name    = 8;
+  optional uint32 _oppo_level   = 9;
+  optional uint32 _oppo_avatar  = 10;
+  optional uint32 _oppo_vip     = 11;
+  optional uint32 _oppo_robot   = 12;
+  required Msg.battle_result _result       = 13 [default = victory];
+  repeated arena_team   _self_heroes  = 14;
+  repeated arena_team   _oppo_heroes  = 15;
+  required uint32 _rseed        = 16;
+  optional uint32 _self_robot   = 17;
+}
+
+message ancients_check_msg{
+  required uint32 _checkid              = 1;
+  required uint32 _userid               = 2;
+  required string _username             = 3;
+  optional uint32 _level                = 4;
+  optional uint32 _avatar               = 5;
+  optional uint32 _vip                  = 6;
+  required Msg.battle_result _result               = 7 [default = victory];
+  repeated Msg.hero   _self_heroes          = 8;
+  required uint32 _difficulty           = 9;
+  required uint32 _rseed                = 10;
+  repeated uint32 _hp_start             = 11;
+  repeated uint32 _hp_end               = 12;
+  repeated uint32 _operations           = 13;
+  optional uint32 _cli_battle_time      = 14;
+  optional uint32 _target_id            = 15;
+}
+
+
+message arena_team {
+    repeated Msg.hero   _heroes   = 1; // 英雄详细信息      
+}
+
+message sync_operation{
+  required uint32 _tick = 1;
+  repeated uint32  _operation = 2;
+}

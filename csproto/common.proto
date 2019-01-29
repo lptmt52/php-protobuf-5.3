@@ -1,0 +1,95 @@
+package Msg;
+
+/////////////////////////////// BASE MSG ///////////////////////////////////////////
+// 通用结果
+enum result {
+    success = 0;
+    fail    = 1;
+}
+
+// 战斗结果
+enum battle_result {
+    victory  = 0;
+    defeat   = 1;
+    canceled = 2;
+    timeout  = 3;
+}
+
+// 货币类型
+enum money_type {
+    gold            = 1;        // 金币
+    diamond         = 2;        // 钻石
+    tbc_point       = 3;        // 远征币
+    ladder_point    = 4;        // 竞技场币
+}
+
+
+
+
+message hero {
+    required uint32 _tid                  = 1;
+    optional uint32 _rank                 = 2;   // 英雄阶级
+    required uint32 _level                = 3;   // 英雄等级
+    required uint32 _stars                = 4;   // 进化等级
+    required uint32 _exp                  = 5;
+    required uint32 _gs                   = 6;
+    required hero_status _state           = 7;   // 英雄状态，标识英雄正在干的事
+    repeated uint32 _skill_levels         = 8;   // 技能等级
+    repeated hero_equip _items            = 9;   // 当前的装备列表
+    optional hero_arousal _arousal        = 10;  // 觉醒
+    optional fashion _fashion        	  = 11;  // 时装
+}
+
+message hero_dyna {
+    required uint32     _hp_perc        = 1;
+    required uint32     _mp_perc        = 2;
+    optional uint32     _custom_data    = 3;
+}
+
+message hero_equip {
+    required uint32 _index                = 1;   // 装备的位置
+    required uint32 _item_id              = 2;   // 装备ID
+    required uint32 _exp                  = 3;   // 英雄经验
+}
+
+message hero_arousal {
+    required uint32 _status               = 1;   // 0表示未解锁，1表示解锁
+    required uint32 _str                  = 2;   // 力量
+    required uint32 _agi                  = 3;   // 敏捷
+    required uint32 _int                  = 4;   // 智力
+    required int32  _str_var              = 5;   // 力量变化
+    required int32  _agi_var              = 6;   // 敏捷变化
+    required int32  _int_var              = 7;   // 智力变化
+    required uint32 _cost_gold            = 8;   // 消耗的金币
+    required uint32 _cost_diamond         = 9;   // 消耗的钻石
+    required uint32 _aro_exp              = 10;  // 获得的觉醒经验
+}
+
+message fashion {
+    optional uint32 _current_fashion     = 1;
+    repeated uint32 _fashion_list        = 2;
+}
+
+// 雇佣数据
+message hire_data {
+    required uint32         _uid   = 1;
+    required string         _name  = 2;
+    required hire_hero      _hero  = 3;
+}
+
+message hire_hero {
+    required hero           _base       = 1;
+    required hero_dyna      _dyna       = 2;
+}
+
+enum hero_status {
+    idle    = 0;    // 空闲
+    hire    = 1;    // 雇佣兵
+    mining  = 2;    // 守矿
+}
+
+enum server_opt_result {
+    get_ok    = 0;    //get list
+    change_ok = 1;    //change server
+    opt_fail      = 2;
+}

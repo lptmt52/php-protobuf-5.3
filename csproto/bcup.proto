@@ -1,0 +1,36 @@
+import "common.proto";
+
+package MsgBUp;
+
+message battlecheck_reply {
+  repeated check_result _result = 1;  // 当为空时，表示请求校验数据
+}
+
+message check_result {
+  enum result {
+    honest  = 1;    // pve用
+    cheat   = 2;    // pve用
+    victory = 3;    // pvp用
+    defeat  = 4;    // pvp用
+  }
+
+  required uint32 _checkid = 1;                    // 在第一次发送请求的时候，设置为0
+  required uint32 _userid  = 2;                    // 没什么作用，直接返回
+  required result _result  = 3 [default = honest]; // 战斗校验的结果
+  required uint32 _is_plugin = 4;                  // 是否为外挂,1是 0否
+  repeated result _round_result = 5; // 每局战斗校验的结果
+  optional gvg_result  _gvg_result        = 6;// 公会战结果
+}
+
+message gvg_result{
+  repeated  gvg_hero     _self_heros    =1;
+  repeated  gvg_hero     _oppo_heros    =2;
+  required  uint32       _battle_length  =3;
+}
+
+message gvg_hero {
+    required uint32 _heroid         = 1;
+    required uint32 _hp_perc        = 2;
+    required uint32 _mp_perc        = 3;
+    optional uint32 _custom_data    = 4;
+}
